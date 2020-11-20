@@ -1,54 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'todo_cards.dart';
 
-class Page2 extends StatelessWidget {
-  // @Overide
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Page 2',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyPage2(title: 'Add to checklist'),
-    );
-  }
-}
-
-class MyPage2 extends StatefulWidget {
-  MyPage2({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyPage2State createState() => _MyPage2State();
-}
-
-class _MyPage2State extends State<MyPage2> {
-  @override
+  class Page2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.green[700],
-        title: Row(children: [
-          Text(
-            widget.title,
-          ),
-          Container(
-              margin: EdgeInsets.only(left: 5.0), child: Icon(Icons.input))
-        ]),
+        title: //Row(children: [
+         Text("Add to Checklist",
+          style: GoogleFonts.tauri(textStyle: TextStyle(fontSize: 20)),
+           ),
+          actions: [
+           FlatButton(
+             color: Colors.green[500], //knappfärg
+             child: Row(
+             children: [
+               Text("Save",  //Icke fungerande sparknapp för nya ToDoCard
+               style: GoogleFonts.tauri(textStyle: TextStyle(fontSize: 16, color: Colors.white)) //Knapptext uteseende
+               ),
+               Container(                            //Spar ikon
+              margin: EdgeInsets.only(left: 5.0), 
+              child: Icon(Icons.save, size: 20.0, color: Colors.white)
+              )
+             ],
+           ),
+          
+            onPressed: () {
+              Navigator.pop(context,
+              TodoCard(
+                todo: 'Test: Skapa TodoCard',
+               // todo: todo, isChecked = false       Datorn blir ledsen 
+              ));
+            })
+         ]
+         // Text(
+            //widget.title,
+         // ),
+          //Container(
+             // margin: EdgeInsets.only(left: 5.0), child: Icon(Icons.input))
+       // ]),
       ),
       body: Column(
         children: [
           Container(
             margin: EdgeInsets.only(left: 10, right: 10, top: 5),
             child: TextField(
-              decoration: InputDecoration(hintText: 'Tap here to add'),
+              style: GoogleFonts.tauri(
+                 textStyle: TextStyle(fontSize: 16, color: Colors.black)),
+              decoration: InputDecoration(hintText: '  Tap here to add', //slöa mellanslag för att få ut texten från vänsterkanten
+               hintStyle: GoogleFonts.tauri(
+                 textStyle: TextStyle(fontSize: 16, color: Colors.black))), 
             ),
             decoration: BoxDecoration(
                 color: Colors.white, boxShadow: [BoxShadow(blurRadius: 6.0)]),
+          ),
+          Container(
+            margin: EdgeInsets.only( top: 140.0,),
+            child: Icon(Icons.calendar_today_sharp, size: 250.0, color: Colors.green[50],)
           )
         ],
       ),
