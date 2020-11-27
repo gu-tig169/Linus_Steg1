@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 class TodoCards {
   String todo;
   bool checked;
+  String id = '';
 
-  TodoCards({this.todo, this.checked = false});
+  TodoCards({this.todo, this.checked = false, this.id});
+
+  factory TodoCards.fromJson(Map<String, dynamic> json) {
+    return TodoCards(
+      todo: json['title'],
+      checked: json['done'],
+      id: json['sd9f9s8df9s8df9s'],
+    );
+  }
 }
 
 class MyState extends ChangeNotifier {
@@ -12,8 +21,8 @@ class MyState extends ChangeNotifier {
   List<TodoCards> _displayedList = [];
   String _filterBy = 'all';
 
-
   void _updateDisplayedList() {
+    //Filter
     switch (_filterBy) {
       case 'all':
         _displayedList = _list;
@@ -46,7 +55,6 @@ class MyState extends ChangeNotifier {
 
   void setCheckbox(TodoCards card, bool checked) {
     _list[_list.indexOf(card)].checked = checked;
-    // card.checked = checked;
     _updateDisplayedList();
   }
 

@@ -20,60 +20,102 @@ class AddTodoViewState extends State<AddTodoView> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFd1e5d9),
         appBar: AppBar(
             title: Text(
               'Add to Checklist',
-              style: GoogleFonts.tauri(textStyle: TextStyle(fontSize: 20)),
+              style: GoogleFonts.tauri(textStyle: TextStyle(fontSize: 20),
+              color: Color(0xFFdcd2bb)),
             ),
-            backgroundColor: Colors.green[700],
+            backgroundColor: Color(0xFF1c3b33),
             actions: [
-              FlatButton(
-                  color: Colors.green[500],
+              Container(
+                child: FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context, TodoCards(todo: todo));
+                  },
+                  color: Color(0xFF737e62),
                   child: Row(
                     children: [
                       Text('Save',
-                          style: GoogleFonts.tauri(
-                              textStyle: TextStyle(
-                                  fontSize: 16, color: Colors.white))),
-                      Container(
-                          //Spar ikon
-                          margin: EdgeInsets.only(left: 5.0),
-                          child:
-                              Icon(Icons.save, size: 20.0, color: Colors.white))
-                    ],
+                        style: GoogleFonts.tauri(
+                          textStyle: TextStyle(
+                            fontSize: 16, color: Color(0xFFdcd2bb)
+                          )
+                        )
+                      ),
+                    Container(
+                      margin: EdgeInsets.only(left: 5.0),
+                      child:  Icon(
+                        Icons.save, 
+                        size: 20.0, 
+                        color: Color(0xFFdcd2bb)
+                      )
+                    )
+                  ],
                   ),
-                  onPressed: () {
-                    Navigator.pop(context, TodoCards(todo: todo));
-                  })
-            ]),
+                ),
+                  decoration: 
+                BoxDecoration(
+                  border: Border(
+                    left: BorderSide(
+                      color: Color(0xFFdcd2bb),
+                      width: 1,
+                      style: BorderStyle.solid
+                    )
+                  )
+                ),
+              ),
+            ],
+            iconTheme: IconThemeData(
+              color: Color(0xFFddcfbc) //Färg på tillbakaknapp
+            )
+          ),
         body: Column(children: [
           Container(
-            margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+            margin: EdgeInsets.only(
+              left: 10,
+              right: 10, 
+              top: 5
+            ),
             child: TextField(
-              cursorColor: Colors.black,
+              controller: textEditingController,
+              cursorColor: Color(0xFFdcd2bb),
               textCapitalization: TextCapitalization.sentences,
               style: GoogleFonts.tauri(
-                  textStyle: TextStyle(fontSize: 16, color: Colors.black)),
+                textStyle: TextStyle(
+                  fontSize: 16, 
+                  color: Color(0xFFdcd2bb)
+                )
+              ),
               decoration: InputDecoration(
-                  hintText:
-                      '  Tap here to add', //slöa mellanslag för att få ut texten från vänsterkanten ¯\_(ツ)_/¯
-                  hintStyle: GoogleFonts.tauri(
-                      textStyle: TextStyle(fontSize: 16, color: Colors.black))),
-                      
-              controller: textEditingController,
+                hintText: '  Tap here to write - then save', //Några slöa mellanslag för att få ut texten från kanten
+                hintStyle: GoogleFonts.tauri(
+                  textStyle: TextStyle(
+                    fontSize: 16, 
+                    color: Color(0xFFdcd2bb)
+                  )
+                )
+              ),
             ),
             decoration: BoxDecoration(
-                color: Colors.white, boxShadow: [BoxShadow(blurRadius: 6.0)]),
+              color: Color(0xFF19342d), 
+              boxShadow: [BoxShadow(blurRadius: 6.0)]
+            ),
           ),
-          Expanded(child: Container(
+          Expanded(
+            child: Container( //Bakrundsikon på sida 2
               margin: EdgeInsets.only(
-                top: 140.0,
+                top: 80.0,
               ),
               child: Icon(
                 Icons.assignment,
                 size: 250.0,
-                color: Colors.green[50],
-              ))
-    )]));
+                color: Color(0xFF19342d),
+              )
+            )
+          )]
+        )
+      );
+    }
   }
-}
