@@ -1,27 +1,39 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'api.dart';
 
 class TodoCards {
   String todo;
   bool checked;
-  String id = '';
+  String id;
 
-  TodoCards({this.todo, this.checked = false, this.id});
+  TodoCards({this.todo, this.checked = false, this.id = ''});
+
+  static String toJson(TodoCards card) {
+    return jsonEncode(<String, dynamic>{
+      'id': card.id,
+      'title': card.todo,
+      'done': card.checked
+    });
+  }
 
   factory TodoCards.fromJson(Map<String, dynamic> json) {
     return TodoCards(
-      todo: json['title'],
-      checked: json['done'],
-      id: json['sd9f9s8df9s8df9s'],
-    );
+        id: json['id'], todo: json['title'], checked: json['done']);
   }
 }
 
 class MyState extends ChangeNotifier {
+  MyState() {
+    _updateDisplayedList();
+  }
   List<TodoCards> _list = [];
   List<TodoCards> _displayedList = [];
   String _filterBy = 'all';
 
   void _updateDisplayedList() {
+    // getList();
     //Filter
     switch (_filterBy) {
       case 'all':
@@ -37,24 +49,41 @@ class MyState extends ChangeNotifier {
         _displayedList = _list;
         break;
     }
+
     print(_displayedList); //debug felsök
     notifyListeners();
   }
 
+  Future getList() async {
+    List<TodoCards> list = await Api.getCards();
+    _list = list;
+    //_updateDisplayedList();
+    notifyListeners();
+    _updateDisplayedList(); //Utan denna så uppdateras inte auto listan vid omstart,
+  } //Men det känns som att appen blir något långsammare
+
   String get filterBy => _filterBy;
 
-  void addCard(TodoCards card) {
-    _list.add(card);
+  void addCard(TodoCards card) async {
+    await Api.addCard(card);
+    await getList();
+    print(list); //kan tas bort sedan
     _updateDisplayedList();
   }
 
-  void removeCard(TodoCards card) {
-    _list.remove(card);
+  void removeCard(TodoCards card) async {
+    Api.deleteCard(card);
+    await getList();
+    //_list.remove(card);
     _updateDisplayedList();
   }
 
-  void setCheckbox(TodoCards card, bool checked) {
-    _list[_list.indexOf(card)].checked = checked;
+  void setCheckbox(TodoCards card) async {
+    // _list[_list.indexOf(card)].checked = checked;
+    
+    Api.updateCard(card);
+    await getList();
+    
     _updateDisplayedList();
   }
 
