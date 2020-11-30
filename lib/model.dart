@@ -31,6 +31,7 @@ class MyState extends ChangeNotifier {
   List<TodoCards> _list = [];
   List<TodoCards> _displayedList = [];
   String _filterBy = 'all';
+  List<TodoCards> get list => _displayedList;
 
   void _updateDisplayedList() {
     // getList();
@@ -59,35 +60,28 @@ class MyState extends ChangeNotifier {
     _list = list;
     //_updateDisplayedList();
     notifyListeners();
-    _updateDisplayedList(); //Utan denna så uppdateras inte auto listan vid omstart,
-  } //Men det känns som att appen blir något långsammare
+    _updateDisplayedList(); //Utan denna så uppdateras inte auto listan vid omstart
+  } 
 
   String get filterBy => _filterBy;
 
   void addCard(TodoCards card) async {
     await Api.addCard(card);
     await getList();
-    print(list); //kan tas bort sedan
-    _updateDisplayedList();
+    notifyListeners();
   }
 
   void removeCard(TodoCards card) async {
     Api.deleteCard(card);
-    await getList();
-    //_list.remove(card);
-    _updateDisplayedList();
+    _list.remove(card);
+    notifyListeners();
   }
 
-  void setCheckbox(TodoCards card) async {
-    // _list[_list.indexOf(card)].checked = checked;
-    
+  void setCheckbox(TodoCards card, bool checked) async {
     Api.updateCard(card);
-    await getList();
-    
-    _updateDisplayedList();
+    card.checked = checked;
+    notifyListeners();
   }
-
-  List<TodoCards> get list => _displayedList;
 
   void setFilterBy(String value) {
     _filterBy = value;
