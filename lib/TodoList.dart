@@ -32,7 +32,7 @@ class _TodoListState extends State<TodoList> {
       value: card.checked,
       onChanged: (checkBoxValue) {
         card.checked = checkBoxValue;
-        Provider.of<MyState>(context, listen: false).setCheckbox(card);
+        Provider.of<MyState>(context, listen: false).setCheckbox(card, checkBoxValue);
       },
 
       activeColor: Color(0xFF1D3C34), //
@@ -52,7 +52,7 @@ class _TodoListState extends State<TodoList> {
           var state = Provider.of<MyState>(context, listen: false);
           state.removeCard(card);
         }
-      ), //removeCard här
+      ), 
     ),
       margin: EdgeInsets.only(
         top: 12.0,

@@ -7,7 +7,7 @@ const API_KEY = '6afa8b09-e6d9-4925-8d7a-55fba03150fd';
 
 class Api {
   static Future addCard(TodoCards card) async {
-    print(card);
+    //print(card);
     var json = TodoCards.toJson(card);
 
     print(json);
@@ -21,9 +21,10 @@ class Api {
   }
 
   //put / update
-  static void updateCard(TodoCards card) {
-    http.put('${API_URL}todos/${card.id}?key=$API_KEY',
+  static Future updateCard(TodoCards card) async {
+    await http.put('${API_URL}todos/${card.id}?key=$API_KEY',
       body: TodoCards.toJson(card), headers: {'Content-Type': 'application/json'});
+      
   }
   // remove
 
